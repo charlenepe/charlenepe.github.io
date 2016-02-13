@@ -5,50 +5,98 @@
     <link rel="stylesheet" type="text/css" href="bower_components/foundation/css/normalize.min.css" />
     <link rel="stylesheet" type="text/css" href="bower_components/foundation/css/foundation.min.css" />
     <style type="text/css">
-		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-		  display: none !important;
-		}
-
-
-		.row.expand {
-	        width: 100%;
-	        max-width: 100%;
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
         }
 
-		#topbar {
-			background-color: black;
-		}
+        body * {
+            font-size: 15px;
+        }
 
-		#sidebar {
-			background-color: red;
-		}
+        .row.expand {
+            width: 100%;
+            max-width: 100%;
+        }
 
-		#details {
-			background-color: aqua;
-		}
+        #topbar {
+            background-color: #34495e;
+            color: white;
+        }
+
+        #sidebar {
+            background-color: red;
+            padding: 0px;
+        }
+
+
+        #sidebar .item {
+            color: #FEFEFE;
+            padding: 5px 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 15px;
+        }
+
+        #details {
+            background-color: #ECF0F1;
+        }
+
+        #sidebar .item.css {
+            background-color: #3A539B ;
+        }
+
+        #sidebar .item.js {
+            background-color: #EB9532;
+
+        }
+
+        #sidebar .item.others{
+            background-color: #F64747;
+        }
+
 
     </style>
 </head>
 <body>
     <div ng-app="cheatsheet" ng-cloak>
         <div class="row expand" id="topbar">
-        	Topbar
+            Topbar
         </div>
         <div class="row expand" id="content">
-        	<div class="columns large-2 medium-4 small-12" id="sidebar">
-        		Sidebar
-        	</div>
-        	<div class= "columns large-10 medium-8 small-12" id="details">
-        		Details
-        	</div>
+            <div class="columns large-2 medium-4 small-12" id="sidebar">
+                <item category="others">Git</item>
+                <item category="js">AngularJS</item>
+                <item category="css">Foundation</item>
+                <item category="css">Bootstrap</item>
+                <item category="js">jQuery</item>
+            </div>
+            <div class= "columns large-10 medium-8 small-12" id="details">
+                Details
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/foundation/js/foundation.min.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript">
-    	app = angular.module('cheatsheet', []);
-    	$(document).foundation();
+        (function($, window, document) {
+            app = angular.module('cheatsheet', []);
+        
+            app.directive("item", function () {
+                return {
+                    scope: {},
+                    restrict: "E",
+                    transclude: true, 
+                    replace: true,
+                    template: '<div class="item {{ klasses }}" ng-transclude></div>',
+                    link: function (scope, element, attr, ctrl, transclude) {
+                        scope.klasses = attr.category;
+                    }
+                }
+            });
+
+            $(document).foundation();
+        }(window.jQuery, window, document));
     </script>
 </body>
 </html>
