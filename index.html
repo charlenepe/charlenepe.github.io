@@ -85,11 +85,9 @@
         </div>
         <div class="row expand" id="content">
             <div class="columns large-2 medium-4 small-12" id="sidebar">
-                <item category="others">Git</item>
-                <item category="js">AngularJS</item>
-                <item category="css">Foundation</item>
-                <item category="css">Bootstrap</item>
-                <item category="js">jQuery</item>
+                <div ng-controller="SidebarCtrl">
+                    <item category="others" ng-repeat="item in sideItems">{{ item }}</item>
+                </div>
             </div>
             <div class= "columns large-10 medium-8 small-12" id="details">
                 <div ng-controller="DetailsCtrl">
@@ -140,6 +138,19 @@
                     "git push origin master",  
                 ];
             });
+
+            app.controller("SidebarCtrl", function($scope) {
+                $scope.sideItems = [
+                    "Git",
+                    "AngularJS",
+                    "Foundation",
+                    "Bootstrap",
+                    "jQuery",
+                    "ReactJS"
+                ];
+            });
+
+
 
             $(document).foundation();
         }(window.jQuery, window, document));
