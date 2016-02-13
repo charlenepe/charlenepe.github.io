@@ -51,6 +51,11 @@
             padding: 3px;    
         }
 
+        .code span {
+            letter-spacing: 2px;
+            font-size: 18px;
+        }
+
         #details {
             background-color: #ECF0F1;
             padding: 30px ;
@@ -87,18 +92,9 @@
                 <item category="js">jQuery</item>
             </div>
             <div class= "columns large-10 medium-8 small-12" id="details">
-                <code>git status</code>  
-                <code>git add README.md</code>  
-                <code>git status</code>  
-                <code>git commit -a</code>  
-                <code>git commit -m "updated README"</code>  
-                <code>git status</code>  
-                <code>git log</code>  
-                <code>git push origin master</code>  
-                <code>git status</code>  
-                <code>git commit -am "updated READme"</code>  
-                <code>git log</code>  
-                <code>git push origin master</code>
+                <div ng-controller="DetailsCtrl">
+                    <code ng-repeat="line in lines">{{ line }}</code>
+                </div>
             </div>
         </div>
     </div>
@@ -132,6 +128,17 @@
                     link: function (scope, element, attr, ctrl, transclude) {
                     }
                 }
+            });
+
+            app.controller("DetailsCtrl", function($scope) {
+                $scope.lines = [
+                    "git init",
+                    "git status",  
+                    "git add README.md",   
+                    "git commit -m 'updated README'",    
+                    "git log",  
+                    "git push origin master",  
+                ];
             });
 
             $(document).foundation();
