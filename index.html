@@ -1,1 +1,16 @@
-Hello World
+<!doctype html>
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+    <div ng-app="cheatsheet">
+        <input type="text" ng-model="something"/>
+        <span>{{ something }}</span>
+    </div>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript">
+    	app = angular.module('cheatsheet', []); 
+    </script>
+</body>
+</html>
