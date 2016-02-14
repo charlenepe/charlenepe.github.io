@@ -15,6 +15,11 @@
             font-family: 'Source Sans Pro', sans-serif;
         }
 
+        strong {
+            color: red;
+            font-weight: bold;
+        }
+
         .row.expand {
             width: 100%;
             max-width: 100%;
@@ -48,12 +53,10 @@
         }
 
         .code {
-            padding: 3px;    
-        }
-
-        .code span {
-            letter-spacing: 2px;
+            padding: 3px;   
+            letter-spacing: 3px;
             font-size: 18px;
+            line-height: 40px; 
         }
 
         #details {
@@ -91,7 +94,7 @@
             </div>
             <div class= "columns large-10 medium-8 small-12" id="details">
                 <div ng-controller="DetailsCtrl">
-                    <code ng-repeat="line in currentDetails">{{ line }}</code>
+                    <code ng-repeat="line in currentDetails" ng-bind-html="line">{{ line }}</code>
                 </div>
             </div>
         </div>
@@ -117,14 +120,32 @@
                     "ng-repeat"    
                 ],
                 "Foundation": [
+                    "large-1",
+                    "large-2",
+                    "large-3",
+                    "large-4",
+                    "large-5",
                     "large-6",
-                    "large-8",  
-                    "large-12", 
-                    "medium-6"    
+                    "medium-1",
+                    "medium-2",
+                    "medium-3",
+                    "medium-4",
+                    "medium-5",
+                    "medium-6",
+                    "small-1",
+                    "small-2",
+                    "small-3",
+                    "small-4",
+                    "small-5",
+                    "small-6"
                 ]
             }
 
             app = angular.module('cheatsheet', []);
+
+            app.config(function($sceProvider) {
+                $sceProvider.enabled(false);
+            });
         
             app.directive("item", function () {
                 return {
@@ -139,7 +160,7 @@
 
                         element.on('click', function(e) {
                             textContent = attr.label;
-                            ctrl.doSomething(textContent);
+                            ctrl.updateDetails(textContent);
                         });
                     }
                 }
@@ -162,12 +183,32 @@
 
             app.controller("SidebarCtrl", function($scope, $rootScope) {
                 $scope.sideItems = Object.keys(cheatsheetData)
-                $rootScope.currentDetails = cheatsheetData["Git"];
+                
 
-                this.doSomething= function(label){
-                    $rootScope.currentDetails = cheatsheetData[label];
+                var getProcessedDetails = function(label) {
+                    var processedArray = cheatsheetData[label];
+
+                    var specialWords = ["git", "ng", "large", "small", "medium"];
+
+                    for (var i=0; i < processedArray.length ; i++) {
+                        for (var j=0; j < specialWords.length; j++) {
+                            var specialWord = specialWords[j];
+
+                            if (processedArray[i].lastIndexOf(specialWord, 0) === 0) {
+                                processedArray[i]= processedArray[i].replace(specialWord, "<strong>" + specialWord + "</strong>");    
+                            }
+                        }
+                    }
+
+                    return processedArray;
+                }
+
+                this.updateDetails = function(label){
+                    $rootScope.currentDetails = getProcessedDetails(label);
                     $scope.$apply();
                 };
+
+                $rootScope.currentDetails = getProcessedDetails("Git");
             });
 
 
