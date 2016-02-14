@@ -65,19 +65,18 @@
             min-height: 1000px;
         }
 
-        #sidebar .item.css:hover {
+        #sidebar .item.css:hover, #sidebar .item.css.active {
             background-color: #3A539B ;   
         }
 
-        #sidebar .item.js:hover {
+        #sidebar .item.js:hover, #sidebar .item.js.active {
             background-color: #EB9532;
 
         }
 
-        #sidebar .item.others:hover{
+        #sidebar .item.others:hover, #sidebar .item.others.active{
             background-color: #F64747;
         }
-
 
     </style>
 </head>
@@ -162,6 +161,16 @@
                             textContent = attr.label;
                             ctrl.updateDetails(textContent);
                         });
+
+                        scope.$root.$watch('currentLabel', function(newVal, oldVal){
+                            if (newVal) {
+                                if (newVal === attr.label) {
+                                    scope.klasses = attr.category + " active";
+                                } else {
+                                    scope.klasses = attr.category;
+                                }
+                            }
+                        });
                     }
                 }
             });
@@ -204,11 +213,13 @@
                 }
 
                 this.updateDetails = function(label){
+                    $rootScope.currentLabel = label;
                     $rootScope.currentDetails = getProcessedDetails(label);
                     $scope.$apply();
                 };
 
-                $rootScope.currentDetails = getProcessedDetails("Git");
+                $rootScope.currentLabel = "Git";
+                $rootScope.currentDetails = getProcessedDetails($rootScope.currentLabel);
             });
 
 
