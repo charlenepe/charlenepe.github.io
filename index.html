@@ -101,6 +101,29 @@
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript">
         (function($, window, document) {
+            cheatsheetData = {
+                "Git": [
+                    "git init",
+                    "git status",  
+                    "git add README.md",   
+                    "git commit -m 'updated README'",    
+                    "git log",  
+                    "git push origin master",  
+                ],
+                "AngularJS": [
+                    "ng-init",
+                    "ng-controller",  
+                    "ng-cloak", 
+                    "ng-repeat"    
+                ],
+                "Foundation": [
+                    "large-6",
+                    "large-8",  
+                    "large-12", 
+                    "medium-6"    
+                ]
+            }
+
             app = angular.module('cheatsheet', []);
         
             app.directive("item", function () {
@@ -129,25 +152,11 @@
             });
 
             app.controller("DetailsCtrl", function($scope) {
-                $scope.lines = [
-                    "git init",
-                    "git status",  
-                    "git add README.md",   
-                    "git commit -m 'updated README'",    
-                    "git log",  
-                    "git push origin master",  
-                ];
+                $scope.lines = cheatsheetData["AngularJS"];
             });
 
             app.controller("SidebarCtrl", function($scope) {
-                $scope.sideItems = [
-                    "Git",
-                    "AngularJS",
-                    "Foundation",
-                    "Bootstrap",
-                    "jQuery",
-                    "ReactJS"
-                ];
+                $scope.sideItems = Object.keys(cheatsheetData)
             });
 
 
