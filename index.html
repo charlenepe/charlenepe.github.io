@@ -91,7 +91,7 @@
             </div>
             <div class= "columns large-10 medium-8 small-12" id="details">
                 <div ng-controller="DetailsCtrl">
-                    <code ng-repeat="line in lines">{{ line }}</code>
+                    <code ng-repeat="line in currentDetails">{{ line }}</code>
                 </div>
             </div>
         </div>
@@ -132,13 +132,14 @@
                     restrict: "E",
                     transclude: true, 
                     replace: true,
+                    controller: "SidebarCtrl",
                     template: '<div class="item {{ klasses }}" ng-transclude></div>',
                     link: function (scope, element, attr, ctrl, transclude) {
                         scope.klasses = attr.category;
 
                         element.on('click', function(e) {
                             textContent = attr.label;
-                            console.log(textContent);
+                            ctrl.doSomething(textContent);
                         });
                     }
                 }
@@ -156,12 +157,17 @@
                 }
             });
 
-            app.controller("DetailsCtrl", function($scope) {
-                $scope.lines = cheatsheetData["AngularJS"];
+            app.controller("DetailsCtrl", function($scope, $rootScope) {
             });
 
-            app.controller("SidebarCtrl", function($scope) {
+            app.controller("SidebarCtrl", function($scope, $rootScope) {
                 $scope.sideItems = Object.keys(cheatsheetData)
+                $rootScope.currentDetails = cheatsheetData["Git"];
+
+                this.doSomething= function(label){
+                    $rootScope.currentDetails = cheatsheetData[label];
+                    $scope.$apply();
+                };
             });
 
 
