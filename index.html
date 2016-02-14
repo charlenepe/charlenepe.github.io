@@ -86,7 +86,7 @@
         <div class="row expand" id="content">
             <div class="columns large-2 medium-4 small-12" id="sidebar">
                 <div ng-controller="SidebarCtrl">
-                    <item category="others" ng-repeat="item in sideItems">{{ item }}</item>
+                    <item category="others" ng-repeat="item in sideItems" label="{{ item }}">{{ item }}</item>
                 </div>
             </div>
             <div class= "columns large-10 medium-8 small-12" id="details">
@@ -135,6 +135,11 @@
                     template: '<div class="item {{ klasses }}" ng-transclude></div>',
                     link: function (scope, element, attr, ctrl, transclude) {
                         scope.klasses = attr.category;
+
+                        element.on('click', function(e) {
+                            textContent = attr.label;
+                            console.log(textContent);
+                        });
                     }
                 }
             });
